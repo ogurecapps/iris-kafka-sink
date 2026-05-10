@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "iris-kafka-sink"
+version = "0.1.0"
+description = "Streaming Kafka → InterSystems IRIS sink"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+readme = "README.md"
+authors = [{ name = "Andrew Sklyarov", email = "coder1cv8@gmail.com" }]
+keywords = ["kafka", "intersystems", "iris", "intersystems-iris", "streaming", "etl", "protobuf"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Database",
+]
+
+[project.urls]
+Homepage   = "https://github.com/ogurecapps/iris-kafka-sink"
+Repository = "https://github.com/ogurecapps/iris-kafka-sink"
+Author     = "https://www.linkedin.com/in/andrey-sklyaroff"
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+]
+
+[project.scripts]
+iris-kafka-sink = "iris_kafka_sink.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/iris_kafka_sink"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]

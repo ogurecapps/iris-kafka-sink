@@ -1,0 +1,32 @@
+.vscode
+.DS_Store
+fields.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Local config / secrets
+.env
+config.yaml
+!config/example.yaml
+
+# Working notes / drafts (not part of the published repo)
+notes/

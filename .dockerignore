@@ -1,0 +1,39 @@
+**/.DS_Store
+**/.git
+**/.gitignore
+**/README.md
+**/LICENSE
+
+# Python bytecode / packaging artifacts
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/*.egg-info/
+build/
+dist/
+
+# Virtualenvs (must NOT leak into the image)
+.venv/
+venv/
+env/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Secrets / local config
+.env
+config.yaml
+
+# IDE
+.vscode/
+.idea/
+
+# Repo content not needed in the runtime image
+tests/
+benchmarks/
+docs/
+deploy/
