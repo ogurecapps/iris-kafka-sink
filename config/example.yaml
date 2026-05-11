@@ -1,0 +1,64 @@
+# iris-kafka-sink — example configuration.
+#
+# One process consumes one Kafka topic. Copy this file, point *_password_env
+# values to the names of environment variables that hold the actual secrets,
+# and pass the resulting file via `--config path/to/config.yaml`.
+
+service:
+  name: "iris-kafka-sink-orders"   # Identifier used in logs and metrics labels.
+
+kafka:
+  bootstrap_servers: "localhost:9092"
+  topic: "orders"
+  group_id: "iris-sink-orders"
+  # Only applies when the consumer group has no committed offset yet.
+  auto_offset_reset: "earliest"    # earliest | latest
+  poll_timeout_ms: 1000
+  max_poll_records: 500
+  session_timeout_ms: 30000
+
+  security:
+    protocol: "PLAINTEXT"          # PLAINTEXT | SASL_SSL
+    # The fields below are required when protocol is SASL_SSL.
+    sasl_mechanism: null           # PLAIN | SCRAM-SHA-256 | SCRAM-SHA-512
+    sasl_username: null
+    sasl_password_env: null        # e.g. "KAFKA_SASL_PASSWORD"
+    ssl_ca_location: null
+
+schema_registry:
+  url: "http://localhost:8081"
+  subject: "orders-value"          # Checked for reachability on startup.
+  basic_auth_user: null
+  basic_auth_password_env: null    # e.g. "SCHEMA_REGISTRY_PASSWORD"
+
+protobuf:
+  # Dotted import path to the compiled *_pb2 module bundled with the image.
+  module: "schemas.order_pb2"
+  message_class: "Order"
+
+iris:
+  hostname: "localhost"
+  port: 1972
+  namespace: "USER"
+  username: "kafka_sink"
+  password_env: "IRIS_PASSWORD"
+  # Must extend KafkaSink.Message and exist in the namespace at startup.
+  target_class: "KafkaSink.Topic.Orders"
+  connection_timeout_s: 10
+
+processing:
+  batch_size: 500
+  # Exponential backoff on IRIS unavailability:
+  # delay = initial * multiplier^attempt, capped at max.
+  retry_backoff_initial_ms: 1000
+  retry_backoff_multiplier: 2.0
+  retry_backoff_max_ms: 32000
+
+http:
+  # FastAPI server for /health and /metrics. Runs in a separate thread.
+  host: "0.0.0.0"
+  port: 8080
+
+logging:
+  level: "INFO"                    # DEBUG | INFO | WARNING | ERROR | CRITICAL
+  format: "json"                   # json (production) | console (development)

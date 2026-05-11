@@ -1,7 +1,7 @@
 import re
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator, model_validator
 
 _IRIS_CLASS_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*(\.[A-Za-z][A-Za-z0-9]*)+$")
 
@@ -18,6 +18,7 @@ class IrisConfig(_StrictBase):
     namespace: str
     username: str
     password_env: str
+    password: SecretStr
     target_class: str
     connection_timeout_s: int = Field(default=10, ge=1)
 
@@ -34,6 +35,7 @@ class SchemaRegistryConfig(_StrictBase):
     subject: str
     basic_auth_user: str | None = None
     basic_auth_password_env: str | None = None
+    basic_auth_password: SecretStr | None = None
 
     @model_validator(mode="after")
     def _validate_basic_auth(self) -> "SchemaRegistryConfig":
@@ -51,6 +53,7 @@ class KafkaSecurityConfig(_StrictBase):
     sasl_mechanism: Literal["PLAIN", "SCRAM-SHA-256", "SCRAM-SHA-512"] | None = None
     sasl_username: str | None = None
     sasl_password_env: str | None = None
+    sasl_password: SecretStr | None = None
     ssl_ca_location: str | None = None
 
     @model_validator(mode="after")

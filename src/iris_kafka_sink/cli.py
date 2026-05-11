@@ -1,9 +1,15 @@
 import argparse
 import logging
+import sys
 from collections.abc import Sequence
+
+import yaml
+from pydantic import ValidationError
 
 from iris_kafka_sink import __version__
 from iris_kafka_sink.app import Application
+from iris_kafka_sink.config.errors import ConfigError
+from iris_kafka_sink.config.loader import load_config
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -32,10 +38,19 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 def main(argv: Sequence[str] | None = None) -> int:
     args = parse_args(argv)
 
+    try:
+        cfg = load_config(args.config)
+    except (ConfigError, ValidationError, yaml.YAMLError, FileNotFoundError) as e:
+        print(f"iris-kafka-sink: error: {e}", file=sys.stderr)
+        return 1
+    if args.validate_config:
+        print(f"iris-kafka-sink: configuration is valid: {args.config}")
+        return 0
+
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(name)s %(message)s",
     )
 
-    app = Application(config_path=args.config, validate_only=args.validate_config)
+    app = Application(config=cfg)
     return app.run()
