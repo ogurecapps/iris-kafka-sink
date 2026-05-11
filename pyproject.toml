@@ -20,13 +20,15 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Database",
 ]
+dependencies = [
+    "pydantic>=2.13,<3.0",
+    "pyyaml>=6.0.3",
+]
 
 [project.urls]
 Homepage   = "https://github.com/ogurecapps/iris-kafka-sink"
 Repository = "https://github.com/ogurecapps/iris-kafka-sink"
-Author     = "https://www.linkedin.com/in/andrey-sklyaroff"
-
-dependencies = []
+LinkedIn   = "https://www.linkedin.com/in/andrey-sklyaroff"
 
 [project.optional-dependencies]
 dev = [
