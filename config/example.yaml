@@ -5,31 +5,31 @@
 # and pass the resulting file via `--config path/to/config.yaml`.
 
 service:
-  name: "iris-kafka-sink-orders"   # Identifier used in logs and metrics labels.
+  name: "iris-kafka-sink-orders" # Identifier used in logs and metrics labels.
 
 kafka:
   bootstrap_servers: "localhost:9092"
   topic: "orders"
   group_id: "iris-sink-orders"
   # Only applies when the consumer group has no committed offset yet.
-  auto_offset_reset: "earliest"    # earliest | latest
+  auto_offset_reset: "earliest" # earliest | latest
   poll_timeout_ms: 1000
   max_poll_records: 500
   session_timeout_ms: 30000
 
   security:
-    protocol: "PLAINTEXT"          # PLAINTEXT | SASL_SSL
+    protocol: "PLAINTEXT" # PLAINTEXT | SASL_SSL
     # The fields below are required when protocol is SASL_SSL.
-    sasl_mechanism: null           # PLAIN | SCRAM-SHA-256 | SCRAM-SHA-512
+    sasl_mechanism: null # PLAIN | SCRAM-SHA-256 | SCRAM-SHA-512
     sasl_username: null
-    sasl_password_env: null        # e.g. "KAFKA_SASL_PASSWORD"
+    sasl_password_env: null # e.g. "KAFKA_SASL_PASSWORD"
     ssl_ca_location: null
 
 schema_registry:
   url: "http://localhost:8081"
-  subject: "orders-value"          # Checked for reachability on startup.
+  subject: "orders-value" # Checked for reachability on startup.
   basic_auth_user: null
-  basic_auth_password_env: null    # e.g. "SCHEMA_REGISTRY_PASSWORD"
+  basic_auth_password_env: null # e.g. "SCHEMA_REGISTRY_PASSWORD"
 
 protobuf:
   # Dotted import path to the compiled *_pb2 module bundled with the image.
@@ -60,5 +60,5 @@ http:
   port: 8080
 
 logging:
-  level: "INFO"                    # DEBUG | INFO | WARNING | ERROR | CRITICAL
-  format: "json"                   # json (production) | console (development)
+  level: "INFO" # DEBUG | INFO | WARNING | ERROR | CRITICAL
+  format: "console" # json (production) | console (development)

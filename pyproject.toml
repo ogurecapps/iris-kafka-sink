@@ -23,6 +23,7 @@ classifiers = [
 dependencies = [
     "pydantic>=2.13,<3.0",
     "pyyaml>=6.0",
+    "structlog>=24.1,<26.0",
 ]
 
 [project.urls]
@@ -30,7 +31,7 @@ Homepage   = "https://github.com/ogurecapps/iris-kafka-sink"
 Repository = "https://github.com/ogurecapps/iris-kafka-sink"
 LinkedIn   = "https://www.linkedin.com/in/andrey-sklyaroff"
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "pytest>=8.0",
     "ruff>=0.5",

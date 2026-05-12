@@ -1,5 +1,4 @@
 import argparse
-import logging
 import sys
 from collections.abc import Sequence
 
@@ -46,11 +45,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.validate_config:
         print(f"iris-kafka-sink: configuration is valid: {args.config}")
         return 0
-
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s %(name)s %(message)s",
-    )
 
     app = Application(config=cfg)
     return app.run()
