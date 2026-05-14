@@ -21,9 +21,11 @@ classifiers = [
     "Topic :: Database",
 ]
 dependencies = [
+    "fastapi>=0.136.1",
     "pydantic>=2.13,<3.0",
     "pyyaml>=6.0",
     "structlog>=24.1,<26.0",
+    "uvicorn>=0.46.0",
 ]
 
 [project.urls]
