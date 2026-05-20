@@ -1,4 +1,4 @@
-name: iris-kafka-sink
+name: iris_kafka_sink
 
 services:
   kafka:
@@ -26,11 +26,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: "0"
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "/opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list || exit 1",
-        ]
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server kafka:9092 --list"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -73,3 +69,34 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "kafka:9092"
       KAFKA_CLUSTERS_0_SCHEMAREGISTRY: "http://schema-registry:8081"
       DYNAMIC_CONFIG_ENABLED: "true"
+
+  iris:
+    container_name: iris-community
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 52774:52773 # Management Portal
+      - 1973:1972 # SuperServer port
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://iris:52773/csp/sys/UtilHome.csp || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  sink-dev:
+    image: astral/uv:python3.12-bookworm-slim
+    container_name: sink-dev
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - sink-venv:/workspace/.venv
+    command: sleep infinity
+
+volumes:
+  sink-venv:

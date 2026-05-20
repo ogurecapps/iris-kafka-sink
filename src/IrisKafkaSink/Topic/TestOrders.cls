@@ -2,7 +2,7 @@
 /// Demonstrates the pattern of adding computed properties to expose
 /// specific payload fields as indexed SQL columns while keeping the
 /// full document in the Payload property.
-Class IrisKafkaSink.Topic.TestOrders Extends IrisKafkaSink.Message [ ClassType = persistent ]
+Class IrisKafkaSink.Topic.TestOrders Extends IrisKafkaSink.Core.Message [ ClassType = persistent ]
 {
 
 /// Order ID extracted from payload — useful for direct lookups

@@ -5,7 +5,7 @@
 /// Storage strategy: full protobuf message is converted to JSON and stored
 /// as a single %DynamicObject. Kafka metadata is stored as flat properties
 /// for fast filtering and deduplication.
-Class IrisKafkaSink.Message Extends %Persistent [ Abstract, ClassType = "" ]
+Class IrisKafkaSink.Core.Message Extends %Persistent [ Abstract, ClassType = "" ]
 {
  
 /// Source topic name

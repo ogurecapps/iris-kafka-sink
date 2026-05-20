@@ -43,7 +43,7 @@ iris:
   username: "kafka_sink"
   password_env: "IRIS_PASSWORD"
   # Must extend KafkaSink.Message and exist in the namespace at startup.
-  target_class: "KafkaSink.Topic.Orders"
+  target_class: "IrisKafkaSink.Topic.TestOrders"
   connection_timeout_s: 10
 
 processing:
